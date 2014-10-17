@@ -45,6 +45,9 @@
         $(this).on('state:remove', this.queue_remove);
         
         this.submit_state = _.debounce(function(){
+            if( ! this.ajax.url )
+                return;
+
             var queue = $.extend(true,{},this.queue);
             this.queue = { update: {}, clear: {} };
             
