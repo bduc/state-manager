@@ -3,7 +3,7 @@
 
     var StateProvider = function( options ) {
         options = _({}).extend(options);
-        this.state = _({}).extend(options.initial_state);    
+        this.state = options.initial_state || {};
     };
     
     _.extend(StateProvider.prototype, {
@@ -48,11 +48,11 @@
             if( ! this.ajax.url )
                 return;
 
-            var queue = $.extend(true,{},this.queue);
-            this.queue = { update: {}, clear: {} };
+            var queue = $.extend(true,{},this.ajax.data,this.queue);
+            this.queue = { update: {}, remove: {} };
             
             $.ajax(
-                _.extend(this.ajax, { 
+                _.extend({}, this.ajax, {
                     data: JSON.stringify(queue),
                     contentType: "application/json; charset=utf-8",
                     dataType: 'json',
